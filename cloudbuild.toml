@@ -1,0 +1,10 @@
+[Component]
+    Name = "GLOBAL.Chasing Horses LLC.Vintage LLC.Hipster Store.currencyservice"
+    Version = "1.2.2"
+    ChartName = "chart/currencyservice"
+    DockerRepo = "quay.io/hipsterstore/currencyservice"
+    GitUrl = "https://github.com/ortelius/store-currencyservice"
+    HelmChart = "GLOBAL.HelmChart"
+    Applications = [
+        "GLOBAL.Chasing Horses LLC.Vintage LLC.Hipster Store.Webstore;July 4th Sale;1.2.9.1"
+    ]

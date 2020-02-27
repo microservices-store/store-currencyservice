@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{ include "currencyservice.name" . }}
+spec:
+  selector:
+    matchLabels:
+      app:  {{ include "currencyservice.name" . }}
+  template:
+    metadata:
+      labels:
+        app:  {{ include "currencyservice.name" . }}
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: {{ include "currencyservice.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.DockerTag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }} 
+          ports:
+            - name: grpc
+              containerPort: 7000
+            env:
+            - name: PORT
+              value: "7000"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 64Mi
+            limits:
+              cpu: 300m
+              memory: 128Mi
+          readinessProbe:
+            initialDelaySeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:7000"]
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:7000"]
